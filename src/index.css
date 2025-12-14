@@ -1,0 +1,38 @@
+:root {
+  /* --- Paleta Principal --- */
+  --cor-primaria: #09624b;       /* Ação: Botões, Cabeçalhos */
+  --cor-musgo: #2b3e18;          /* Institucional: Menus laterais */
+  --cor-destaque: #fec95c;       /* Ícones, Links ativos */
+  --cor-texto: #1e293b;          /* Títulos e Textos principais */
+  --cor-fundo: #f5f7fb;          /* Background das páginas */
+  
+  /* --- Cores Utilitárias --- */
+  --cor-branco: #ffffff;         /* Caixas, Balões do Robô */
+  --cor-input: #f9fbfd;          /* Campos de texto */
+  --cor-link: #d97706;           /* Links */
+}
+
+/* Reset básico (Tira as margens padrão do navegador) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  min-height: 100vh;
+  display: flex; /* Centraliza tudo na tela (temporário, bom para o login) */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Classe utilitária para centralizar o conteúdo */
+.app-container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+}

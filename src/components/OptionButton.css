@@ -1,0 +1,35 @@
+.option-btn-container {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap; /* Se tiver muitos botões, quebra linha */
+  justify-content: center;
+  width: 100%;
+}
+
+.option-btn {
+  background-color: transparent;
+  border: 2px solid var(--cor-primaria); 
+  color: var(--cor-primaria);
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px; /* Pill shape */
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+
+.option-btn:hover {
+  background-color: var(--cor-primaria);
+  color: var(--cor-branco);
+  transform: translateY(-2px); 
+  box-shadow: 0 4px 10px rgba(9, 98, 75, 0.2);
+}
+
+/* Opção de Destaque (ex: Voltar) */
+.option-btn.secondary {
+  border-color: #94a3b8;
+  color: #64748b;
+}

@@ -1,0 +1,150 @@
+/* --- CONTAINER PRINCIPAL --- */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 95vw;
+    max-width: 1400px;
+    height: 95vh;
+    background-color: var(--cor-fundo);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+.chat-header {
+    background-color: var(--cor-primaria);
+    color: var(--cor-branco);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    /* Espaço entre avatar e a logo */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.avatar-robot {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-size: 1.5rem;
+    /* Garante que robô não "amasse" */
+    flex-shrink: 0;
+    border: 3px solid var(--cor-primaria);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.header-text-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.header-logo {
+    height: 50px;
+    /* Altura fixa p/ logo não estourar */
+    width: auto;
+    /* Largura automática proporcional */
+    object-fit: contain;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.header-text-group small{
+    font-size: 1rem;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.messages-area {
+    flex: 1;
+    /* Ocupa espaço restante */
+    padding: 2rem;
+    overflow-y: auto;
+    /* Scroll vertical */
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    /* Configura fundo */
+    position: relative;
+    z-index: 1;
+    /* Texto na frente */
+}
+
+/* Marca D'água */
+.messages-area::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/logo-verde.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30%;
+    /* Tamanho da logo de fundo */
+    opacity: 0.08;
+    z-index: -1;
+    /* Coloca atrás do texto */
+    pointer-events: none;
+    /* Não atrapalha clique */
+}
+
+/* Balões de Mensagem */
+.message-bubble {
+    max-width: 70%;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 1rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Balão do Robô */
+.bot-msg {
+    align-self: flex-start;
+    background-color: var(--cor-branco);
+    color: var(--cor-texto);
+    border-bottom-left-radius: 2px;
+}
+
+/* Balão do Usuário */
+.user-msg {
+    align-self: flex-end;
+    background-color: var(--cor-primaria);
+    color: var(--cor-branco);
+    border-bottom-right-radius: 2px;
+}
+
+.chat-footer {
+    padding: 1.5rem;
+    background-color: var(--cor-branco);
+    border-top: 1px solid #e2e8f0;
+    min-height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}

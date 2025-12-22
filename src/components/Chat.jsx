@@ -66,13 +66,13 @@ const Chat = ({ userName }) => {
     fetchOptions(null);
   }, []);
 
-  // --- HANDLER ---
+  
   const handleOptionClick = (option) => {
-    // 1. Mostra a mensagem do usuário (Ex: "Problemas de Hardware" ou "Voltar")
+    // Mostra a mensagem do usuário 
     const userResponse = { id: Date.now(), text: option.option_text, sender: "user" };
     setMessages((prev) => [...prev, userResponse]);
 
-    // 2. VERIFICAÇÃO ESPECIAL: É o botão voltar?
+    // VERIFICAÇÃO: É o botão voltar?
     if (option.is_back_action) {
         // Se for voltar, chamamos a raiz (null) e paramos por aqui
         setTimeout(() => {
@@ -81,7 +81,7 @@ const Chat = ({ userName }) => {
         return; 
     }
 
-    // 3. Comportamento Normal (Botões do Banco)
+    // Comportamento Normal (Botões do Banco)
     if (option.bot_response) {
         setTimeout(() => {
             setMessages(prev => [...prev, {
@@ -89,19 +89,26 @@ const Chat = ({ userName }) => {
                 text: option.bot_response,
                 sender: "bot"
             }]);
+            
+            // Se clicar no botão GLPI, abre ele em nova aba
+            if (option.option_text === "Abrir chamado GLPI") {
+              setTimeout(() => {
+                window.open("https://sisu.senarbahia.org.br/index.php?noAUTO=1", "_blank");
+              }, 2000);
+            }
         }, 500);
     }
 
     if (!option.is_solution) {
         fetchOptions(option.id);
     } else {
-        setCurrentOptions([]); // Se for solução, limpa os botões
+        setCurrentOptions([]); // Se for solução, limpa botões
     }
   };
 
   return (
     <div className="chat-container">
-      {/* Header */}
+      
       <div className="chat-header">
         <div className="header-content">
           <div className="avatar-robot">
@@ -117,7 +124,6 @@ const Chat = ({ userName }) => {
         </div>
       </div>
 
-      {/* Messages Body */}
       <div className="messages-area">
         {messages.map((msg) => (
           <div key={msg.id} className={`message-bubble ${msg.sender === "user" ? "user-msg" : "bot-msg"}`}>
@@ -127,7 +133,6 @@ const Chat = ({ userName }) => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Footer com Botões */}
       <div className="chat-footer">
         <div className="option-btn-container">
           {currentOptions.map((option) => (

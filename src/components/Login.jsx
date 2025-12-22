@@ -20,7 +20,7 @@ const Login = ({ onLogin }) => {
       return
     }
 
-    //Lógica de pegar o nome com base no login
+    //Pega o nome com base no login
     const firstName = userName.split('.')[0]
     const nameToShow = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase()
     onLogin(nameToShow)
@@ -30,6 +30,11 @@ const Login = ({ onLogin }) => {
    <div className="login-card">
     
     <div className="login-header">
+      <img 
+        src="/logo-verde.png" 
+        alt="Logo SENAR" 
+        style={{ width: "150px", marginBottom: "20px" }} 
+      />
       <h2>Acesso ao chat de suporte do NTI</h2>
       <p>Urilize suas credenciais de rede</p>
     </div>

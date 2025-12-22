@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./Chat.css";
 import "./OptionButton.css";
 
-const Chat = ({ userName }) => {
-  // --- STATE ---
+const Chat = ({ userName }) => { 
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -21,25 +20,26 @@ const Chat = ({ userName }) => {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // --- FUNÇÃO QUE BUSCA NA API ---
+  // - Busca na API -
   const fetchOptions = async (parentId = null) => {
     setLoading(true);
     try {
+      // Pega a URL do arquivo .env. Se não achar, usa localhost por garantia.
+      const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
       const url = parentId 
-        ? `http://localhost:3000/api/options?parent_id=${parentId}`
-        : `http://localhost:3000/api/options`;
+        ? `${API_BASE}/api/options?parent_id=${parentId}`
+        : `${API_BASE}/api/options`;
 
       const response = await fetch(url);
       const data = await response.json();
 
-      // --- A MÁGICA DO BOTÃO VOLTAR ---
-      // Se parentId for diferente de null, significa que estamos dentro de um submenu.
-      // Então, adicionamos o botão "Voltar" manualmente na lista que veio do banco.
+      // - Botão voltar
       if (parentId !== null) {
           data.push({
-              id: 'btn_voltar', // ID único
-              option_text: '⬅ Voltar ao Início', // Texto do botão
-              is_back_action: true // Marcador especial para sabermos que é ele
+              id: 'btn_voltar',
+              option_text: '⬅ Voltar ao Início',
+              is_back_action: true
           });
       }
 

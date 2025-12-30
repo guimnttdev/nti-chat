@@ -1,20 +1,47 @@
+:root {
+  --cor-primaria: #006847; /* Verde do Senar */
+  --cor-musgo: #004a33;    /* Verde mais escuro para hover */
+  --cor-branco: #ffffff;
+  --cor-texto: #1e293b;
+  --cor-input: #f8fafc;
+}
+
+/* Container que centraliza tudo na tela */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f1f5f9; /* Fundo cinza bem clarinho */
+  padding: 1rem;
+}
+
+/* O cartão branco do login */
 .login-card {
   background-color: var(--cor-branco);
-  padding: 2.5rem; /* Espaçamento interno */
-  border-radius: 12px; /* Cantos arredondados */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Sombra mais elegante */
   width: 100%;
   max-width: 400px;
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Espaço entre elementos */
+  gap: 1.5rem;
+}
+
+/* Ajustes do Cabeçalho e Logo */
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza o logo e o texto */
 }
 
 .login-header h2 {
   color: var(--cor-primaria);
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
+  margin-top: 1rem;
 }
 
 .login-header p {
@@ -22,6 +49,7 @@
   font-size: 0.9rem;
 }
 
+/* Inputs */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -49,7 +77,7 @@
   border-color: var(--cor-primaria);
 }
 
-
+/* Botão */
 .btn-login {
   background-color: var(--cor-primaria);
   color: white;
@@ -60,14 +88,24 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-top: 0.5rem;
 }
 
 .btn-login:hover {
   background-color: var(--cor-musgo);
 }
 
+.btn-login:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Mensagem de Erro */
 .error-msg {
-  color: #ef4444; /* Cor de erro */
+  color: #ef4444;
   font-size: 0.85rem;
-  margin-top: -1rem;
+  background-color: #fee2e2;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #fecaca;
 }

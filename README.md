@@ -33,14 +33,23 @@ Abra o terminal na pasta do projeto e execute o comando abaixo para baixar as "p
 npm install
 ```
 
-### 3. Executando o Projeto
+### 3. Configuração do Ambiente (.env)
+Crie um arquivo chamado `.env` na raiz do projeto e adicione a URL da API:
+
+```bash
+VITE_API_URL=http://localhost:3000
+```
+
+### 4. Executando o Projeto
 Para iniciar o site em modo de desenvolvimento, execute:
 ```bash
 npm run dev
 ```
 O terminal mostrará um endereço (geralmente http://localhost:5173). Abra este link no navegador para usar o chat.
 
+---
 🛠️ Estrutura para Desenvolvedores
+
 src/pages/Login.jsx: Gerencia a autenticação e conexão inicial.
 
 src/components/Chat.jsx: Lógica de exibir mensagens e botões.

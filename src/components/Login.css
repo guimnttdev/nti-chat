@@ -12,7 +12,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f1f5f9; /* Fundo cinza bem clarinho */
+  background-color: transparent; /* Fundo cinza bem clarinho */
   padding: 1rem;
 }
 

@@ -53,8 +53,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-           {/* Se tiver a logo, descomente abaixo */}
-           <img src="/logo-colorida.png" alt="Logo" style={{ width: '150px', marginBottom: '0.5rem' }} />
+           <img src="/logo-verde.png" alt="Logo" style={{ width: '150px', marginBottom: '0.5rem' }} />
           <h2>Acesso NTI</h2>
           <p>Utilize suas credenciais de rede para entrar</p>
         </div>

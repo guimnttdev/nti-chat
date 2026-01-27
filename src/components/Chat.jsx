@@ -74,20 +74,19 @@ const Chat = () => {
 
   
   const handleOptionClick = (option) => {
-    // 1. Mostra a escolha do usuário na tela
+    // Mostra a escolha do usuário na tela
     const userResponse = { id: Date.now(), text: option.option_text, sender: "user" };
     setMessages((prev) => [...prev, userResponse]);
 
-    // 2. LÓGICA DO GLPI (CORRIGIDA)
-    // Agora verificamos isso ANTES de ver se tem resposta do bot
-    if (option.option_text.includes("GLPI")) {
+    // LÓGICA DO SISU
+    if (option.option_text.includes("SISU") || option.option_text.includes("GLPI")) {
         setTimeout(() => {
-            // Abre o GLPI em nova aba
+            // Abre o SISU em nova aba
             window.open("https://sisu.senarbahia.org.br/index.php?noAUTO=1", "_blank");
         }, 1000); // Pequeno delay para dar tempo do usuário ver o clique
     }
 
-    // 3. Verifica se é botão de voltar
+    // Verifica se é botão de voltar
     if (option.is_back_action) {
         setLoading(true);
         setTimeout(() => {
@@ -96,7 +95,7 @@ const Chat = () => {
         return; 
     }
 
-    // 4. Se tiver resposta de texto do bot, mostra ela
+    // Se tiver resposta de texto do bot, mostra ela
     if (option.bot_response) {
         setTimeout(() => {
             setMessages(prev => [...prev, {
@@ -107,7 +106,7 @@ const Chat = () => {
         }, 500);
     }
 
-    // 5. Carrega próximos botões ou encerra
+    // Carrega próximos botões ou encerra
     if (!option.is_solution) {
         fetchOptions(option.id);
     } else {

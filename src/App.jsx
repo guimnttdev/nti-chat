@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login'; // Verifique se o caminho está certo
-import Chat from './components/Chat';   // Verifique se o caminho está certo
+import Login from './components/Login';
+import Chat from './components/Chat';
 
 function App() {
   return (

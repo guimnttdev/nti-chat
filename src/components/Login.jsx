@@ -26,16 +26,21 @@ const Login = () => {
 
       const data = await response.json();
 
-      if (response.ok && data.success) {
-        // ✅ SUCESSO!
-        // Salva com redundância para garantir que o chat encontre o nome
+      if (response.ok && data.success) {        
+        // - 1. Entrega o token - 
+        // Se a API não mandar um token real ainda, usamos um marcador para o MVP.
+        localStorage.setItem('token', data.token || "token-de-acesso-mvp-nti");
+
+        // - 2. SALVA DADOS DO USUÁRIO -
         const usuarioDados = {
-            name: data.nome, // "Bruno Fernandes"
-            nome: data.nome, // "Bruno Fernandes" (redundância)
+            name: data.nome, 
+            nome: data.nome,
             username: data.user
         };
         
         localStorage.setItem('chat_user', JSON.stringify(usuarioDados));
+        
+        // - 3. ENTRAR NO CHAT -
         navigate('/chat');
       } else {
         setError(data.message || 'Credenciais inválidas.');

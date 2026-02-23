@@ -12,6 +12,7 @@ const Chat = () => {
     displayName = userObj.name || userObj.nome || userObj.username || "Colaborador";
   }
 
+  // --- ESTADOS ---
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -27,25 +28,73 @@ const Chat = () => {
 
   const [currentOptions, setCurrentOptions] = useState([]);
   const [loading, setLoading] = useState(false);
+  
+  // Controle do Botão Voltar
+  const [historyStack, setHistoryStack] = useState([]); 
+  const [currentParentId, setCurrentParentId] = useState(null);
+
   const messagesEndRef = useRef(null);
 
-  // - Busca na API -
+  // --- 1. FUNÇÃO DE LOGOUT (Limpa tudo e chuta pro Login) ---
+  const handleLogout = () => {
+    console.log("🚪 Logout acionado!");
+    localStorage.removeItem('token');
+    localStorage.removeItem('chat_user');
+    localStorage.removeItem('user');
+    window.location.href = '/';
+  };
+
+  // --- 2. VIGIA DE INATIVIDADE (Logout Automático) ---
+  useEffect(() => {
+    // console.log("🕒 Vigia de Inatividade iniciado!"); // Pode comentar ou remover
+
+    // ✅ 5 Minutos (300.000 ms)
+    const INACTIVITY_LIMIT = 3 * 60 * 1000; 
+
+    let inactivityTimer;
+
+    const resetTimer = () => {
+      if (inactivityTimer) clearTimeout(inactivityTimer);
+      
+      inactivityTimer = setTimeout(() => {
+        console.log("💤 Tempo esgotado! Realizando logout...");
+        handleLogout();
+      }, INACTIVITY_LIMIT);
+    };
+
+    const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+    events.forEach(event => window.addEventListener(event, resetTimer));
+
+    resetTimer();
+
+    return () => {
+      if (inactivityTimer) clearTimeout(inactivityTimer);
+      events.forEach(event => window.removeEventListener(event, resetTimer));
+    };
+  }, []);
+
+  // --- BUSCA NA API ---
   const fetchOptions = async (parentId = null) => {
     setLoading(true);
     try {
+      const effectiveParentId = (parentId === undefined) ? null : parentId;
       const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
-      const url = parentId 
-        ? `${API_BASE}/api/options?parent_id=${parentId}`
+      const url = effectiveParentId 
+        ? `${API_BASE}/api/options?parent_id=${effectiveParentId}`
         : `${API_BASE}/api/options`;
 
       const response = await fetch(url);
-      const data = await response.json();
+      let data = await response.json();
 
-      if (parentId !== null) {
+      // Limpa duplicatas
+      data = data.filter(item => item.id !== 'btn_voltar' && !item.option_text.includes("Voltar"));
+
+      // Adiciona botão voltar se não for raiz
+      if (effectiveParentId !== null) {
           data.push({
               id: 'btn_voltar',
-              option_text: '⬅ Voltar ao Início',
+              option_text: '⬅ Voltar',
               is_back_action: true
           });
       }
@@ -74,28 +123,37 @@ const Chat = () => {
 
   
   const handleOptionClick = (option) => {
-    // Mostra a escolha do usuário na tela
-    const userResponse = { id: Date.now(), text: option.option_text, sender: "user" };
-    setMessages((prev) => [...prev, userResponse]);
-
-    // LÓGICA DO SISU
-    if (option.option_text.includes("SISU") || option.option_text.includes("GLPI")) {
-        setTimeout(() => {
-            // Abre o SISU em nova aba
-            window.open("https://sisu.senarbahia.org.br/index.php?noAUTO=1", "_blank");
-        }, 1000); // Pequeno delay para dar tempo do usuário ver o clique
+    if (!option.is_back_action) {
+        const userResponse = { id: Date.now(), text: option.option_text, sender: "user" };
+        setMessages((prev) => [...prev, userResponse]);
     }
 
-    // Verifica se é botão de voltar
+    if (option.option_text.includes("SISU") || option.option_text.includes("GLPI")) {
+        setTimeout(() => {
+            window.open("https://sisu.senarbahia.org.br/index.php?noAUTO=1", "_blank");
+        }, 1000); 
+    }
+
+    // Lógica do Voltar
     if (option.is_back_action) {
         setLoading(true);
-        setTimeout(() => {
-            fetchOptions(null);
-        }, 400);
+        if (option.id === 'restart') {
+            setHistoryStack([]);
+            setCurrentParentId(null);
+            setTimeout(() => fetchOptions(null), 400);
+        } else {
+            setHistoryStack(prevStack => {
+                const newStack = [...prevStack];
+                const prevId = newStack.pop() || null;
+                setCurrentParentId(prevId); 
+                setTimeout(() => fetchOptions(prevId), 400);
+                return newStack;
+            });
+        }
         return; 
     }
 
-    // Se tiver resposta de texto do bot, mostra ela
+    // Avançar
     if (option.bot_response) {
         setTimeout(() => {
             setMessages(prev => [...prev, {
@@ -106,13 +164,12 @@ const Chat = () => {
         }, 500);
     }
 
-    // Carrega próximos botões ou encerra
     if (!option.is_solution) {
+        setHistoryStack(prev => [...prev, currentParentId]);
+        setCurrentParentId(option.id);
         fetchOptions(option.id);
     } else {
         setCurrentOptions([]); 
-        
-        // Botão de reiniciar
         setTimeout(() => {
              setCurrentOptions([{
                  id: 'restart',
@@ -136,6 +193,9 @@ const Chat = () => {
               <small style={{ opacity: 0.9, fontSize: "0.8rem", color: "#e0e0e0" }}>Assistente Virtual</small>
             </div>
           </div>
+          <button onClick={handleLogout} className="logout-btn">
+             Sair ❌
+          </button>
         </div>
       </div>
 

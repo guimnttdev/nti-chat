@@ -23,6 +23,23 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.logout-btn {
+    margin-left: auto; /* Mágica do CSS para jogar pra direita */
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255,255,255,0.5);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #ff4d4d; /* Fica vermelho ao passar o mouse */
+    border-color: #ff4d4d;
+}
+
 .header-content {
     display: flex;
     align-items: center;

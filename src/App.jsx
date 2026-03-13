@@ -1,29 +1,28 @@
-import { useState } from 'react'
-import './index.css'
-import Login from './components/Login'
-import Chat from './components/Chat'
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components/Login';
+import Chat from './components/Chat';
+import AuthGuard from './components/AuthGuard';
 
 function App() {
-  // --- STATE ---
-  const [user, setUser] = useState(null)
-
-  // --- HANDLERS ---
-  const handleLoginSuccess = (userCredential) => {
-    setUser(userCredential)
-  }
-
   return (
-    <div className="app-container">
-      {/* Se está logado -> Mostra Chat
-         Senão -> Mostra Login
-      */}
-      {user ? (
-        <Chat userName={user} />
-      ) : (
-        <Login onLogin={handleLoginSuccess} />
-      )}
+    <div className="App">
+      <Routes>
+        {/* Rota Raiz, do Login */}
+        <Route path="/" element={<Login />} />
+
+        {/* Rota do Chat */}
+        <Route path="/chat" element={
+    <AuthGuard>
+        <Chat />
+    </AuthGuard>
+} />
+
+        {/* Rota Coringa: Qualquer endereço errado volta para o Login */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

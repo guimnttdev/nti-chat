@@ -1,71 +1,101 @@
-import React, { useState } from "react";
-import "./Login.css";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
-const Login = ({ onLogin }) => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
 
-    //validação - campos vazios
-    if (!userName || !password) {
-      setError("Por favor, preencha todos os campos");
-      return;
-    }
-    //validação de formato
-    if (!userName.includes(".")) {
-      setError('Utilize o mesmo usuário de rede')
-      return
-    }
+    try {
+      // Pega URL da API
+      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-    //Lógica de pegar o nome com base no login
-    const firstName = userName.split('.')[0]
-    const nameToShow = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase()
-    onLogin(nameToShow)
+      const response = await fetch(`${API_BASE}/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {        
+        // - 1. Entrega o token - 
+        // Se a API não mandar um token real ainda, usamos um marcador para o MVP.
+        localStorage.setItem('token', data.token || "token-de-acesso-mvp-nti");
+
+        // - 2. SALVA DADOS DO USUÁRIO -
+        const usuarioDados = {
+            name: data.nome, 
+            nome: data.nome,
+            username: data.user
+        };
+        
+        localStorage.setItem('chat_user', JSON.stringify(usuarioDados));
+        
+        // - 3. ENTRAR NO CHAT -
+        navigate('/chat');
+      } else {
+        setError(data.message || 'Credenciais inválidas.');
+      }
+
+    } catch (err) {
+      console.error('Erro:', err);
+      setError('Erro ao conectar com o servidor.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-   <div className="login-card">
-    
-    <div className="login-header">
-      <h2>Acesso ao chat de suporte do NTI</h2>
-      <p>Urilize suas credenciais de rede</p>
+    <div className="login-container">
+      <div className="login-card">
+        <div className="login-header">
+           <img src="/logo-verde.png" alt="Logo" style={{ width: '150px', marginBottom: '0.5rem' }} />
+          <h2>Acesso NTI</h2>
+          <p>Utilize suas credenciais de rede para entrar</p>
+        </div>
+
+        <form onSubmit={handleLogin}>
+          <div className="input-group">
+            <label htmlFor="username">Usuário</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Ex: nome.sobrenome"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="input-group">
+            <label htmlFor="password">Senha</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Sua senha de rede"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          {error && <p className="error-msg">{error}</p>}
+
+          <button type="submit" className="btn-login" disabled={loading}>
+            {loading ? 'Validando...' : 'Entrar'}
+          </button>
+        </form>
+      </div>
     </div>
-
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem'}}>
-      <div className="input-group">
-        <label htmlFor="user">Login</label>
-        <input
-        type="text"
-        id="user"
-        placeholder="usuário"
-        value={userName}
-        onChange={(e) => {setUserName(e.target.value)
-          setError('')
-        }}
-        />
-      </div>
-
-      <div className="input-group">
-        <label htmlFor="pass">Senha</label>
-        <input
-        type="password"
-        id="pass"
-        placeholder="••••••••"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      
-      {error && <span className="error-msg">{error}</span>}
-
-      <button type="submit" className="btn-login">
-        Login
-      </button>
-    </form>
-   </div>
   );
 };
 

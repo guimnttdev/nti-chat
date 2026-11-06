@@ -1,35 +1,58 @@
+
 :root {
-  /* --- Paleta Principal --- */
-  --cor-primaria: #09624b;       /* Ação: Botões, Cabeçalhos */
-  --cor-musgo: #2b3e18;          /* Institucional: Menus laterais */
-  --cor-destaque: #fec95c;       /* Ícones, Links ativos */
-  --cor-texto: #1e293b;          /* Títulos e Textos principais */
-  --cor-fundo: #f5f7fb;          /* Background das páginas */
-  
-  /* --- Cores Utilitárias --- */
-  --cor-branco: #ffffff;         /* Caixas, Balões do Robô */
-  --cor-input: #f9fbfd;          /* Campos de texto */
-  --cor-link: #d97706;           /* Links */
+  /* Paleta institucional (use sempre estes tokens) */
+  --verde-escuro: #135a3e;
+  --verde-escuro-hover: #0e4630;
+  --verde-medio: #1f7d55;
+  --verde-claro: #e8f3ec;
+  --borda: #e2ebe5;
+  --texto: #1f2d25;
+  --texto-suave: #6b7c72;
+  --fundo: #f4f7f5;
+  --branco: #ffffff;
+
+  /* Nomes antigos, mantidos por compatibilidade */
+  --cor-primaria: var(--verde-escuro);
+  --cor-musgo: var(--verde-escuro-hover);
+  --cor-texto: var(--texto);
+  --cor-fundo: var(--fundo);
+  --cor-branco: var(--branco);
+  --cor-input: #f9fbfa;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Reset básico (Tira as margens padrão do navegador) */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--cor-fundo);
-  color: var(--cor-texto);
-  min-height: 100vh;
-  display: flex; /* Centraliza tudo na tela (temporário, bom para o login) */
-  justify-content: center;
-  align-items: center;
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
 }
 
-/* Classe utilitária para centralizar o conteúdo */
+body {
+  min-height: 100vh;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+/* Área principal da aplicação */
+#root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Utilitário de layout */
 .app-container {
   width: 100%;
   max-width: 1200px;

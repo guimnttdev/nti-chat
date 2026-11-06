@@ -1,11 +1,3 @@
-:root {
-  --cor-primaria: #006847; /* Verde do Senar */
-  --cor-musgo: #004a33;    /* Verde mais escuro para hover */
-  --cor-branco: #ffffff;
-  --cor-texto: #1e293b;
-  --cor-input: #f8fafc;
-}
-
 /* Container que centraliza tudo na tela */
 .login-container {
   display: flex;
@@ -108,4 +100,40 @@
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #fecaca;
+}
+/* Ajuda para quem não consegue entrar */
+.login-help {
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+  color: #4a5a50;
+  text-align: left;
+}
+
+.login-help summary {
+  cursor: pointer;
+  color: var(--verde-escuro);
+  font-weight: 600;
+  text-align: center;
+}
+
+.login-help summary:focus-visible {
+  outline: 3px solid #b7f3ce;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.login-help ul {
+  margin: 0.75rem 0 0;
+  padding-left: 1.2rem;
+  line-height: 1.5;
+}
+
+/* Aviso informativo (sessão expirada, inatividade) */
+.info-msg {
+  padding: 10px;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  background-color: var(--verde-claro);
+  color: var(--verde-escuro);
+  font-size: 0.85rem;
 }

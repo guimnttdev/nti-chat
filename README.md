@@ -57,3 +57,17 @@ src/components/Chat.jsx: Lógica de exibir mensagens e botões.
 src/App.jsx: Gerencia as rotas (troca de telas entre Login e Chat).
 
 public/: Contém as imagens estáticas (Logos, ícones).
+
+## 🚀 Produção
+
+1. Copie `.env.example` para `.env` e ajuste `VITE_API_URL` (as variáveis `VITE_*` entram no build).
+2. Gere o build e inicie com o PM2:
+
+```bash
+npm install
+npm run build
+pm2 start ecosystem.config.cjs
+```
+
+O `server.cjs` serve a pasta `dist/` (porta 4173 por padrão) com fallback para as rotas do React.
+Lembre de incluir o endereço do front em `CORS_ORIGIN` no `.env` da API.
